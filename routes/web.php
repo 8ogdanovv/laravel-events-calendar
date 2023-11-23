@@ -11,20 +11,20 @@
 |
 */
 
-Route::get('/', function () {
-    return view('main');
-});
+Route::middleware(['redirect.to.calendar'])->group(function () {
+    Route::get('/', function () {
+        return view('main');
+    });
 
-Route::get('/events', function () {
-    return view('events');
-});
+    Route::get('/events', function () {
+        return view('events');
+    });
 
-Route::get('/calendar', function () {
-    return view('calendar');
-});
+    Route::get('/calendar', function () {
+        return view('calendar');
+    });
 
-// Route::get('/calendar', 'CalendarController@index');
-
-Route::get('/faq', function () {
-    return view('faq');
+    Route::get('/faq', function () {
+        return view('faq');
+    });
 });
