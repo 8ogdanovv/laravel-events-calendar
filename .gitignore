@@ -1,0 +1,49 @@
+/node_modules
+/public/hot
+/public/storage
+/storage/*.key
+/vendor
+.env
+.env.backup
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+
+# Laravel-specific entries
+/bootstrap/cache/
+/public/css/
+/public/js/
+/public/mix-manifest.json
+/public/web.config
+/public/hot
+/storage/*.key
+/storage/backups/
+/storage/framework/
+/storage/logs/
+/storage/app/public/
+/storage/app/storage/
+/storage/debugbar/
+/storage/framework/cache/
+/storage/framework/sessions/
+/storage/framework/testing/
+/storage/framework/views/
+/storage/logs/
+
+# Composer-specific entries
+/vendor/
+/composer.phar
+/ composer.lock
+
+# PhpStorm-specific entries
+.idea
+*.iml
+*.ipr
+*.iws
+*.hprof
+
+# Docker-specific entries
+docker-compose.yml
+docker-compose.yml.override
+.env.docker
