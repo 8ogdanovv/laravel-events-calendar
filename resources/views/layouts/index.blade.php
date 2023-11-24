@@ -30,6 +30,12 @@
             }
 
             .overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                z-index: 10;
+                width: 100dvw;
+                height: 100dvh;
                 background: rgba(255, 250, 251, 0.20);
                 backdrop-filter: blur(2px);
             }
@@ -46,7 +52,7 @@
                 font-weight: 200;
                 height: 100vh;
                 margin: 0;
-                overflow: hidden;
+                /* overflow: hidden; */
             }
 
 
@@ -158,36 +164,6 @@
                     gap: 4rem;
                 }
             }
-
-            /* @media (max-width: 949px) {
-                .header > menu {
-                    gap: 0.5rem;
-                }
-            }
-
-            @media (min-width: 950px) and (max-width: 1019px) {
-                .header > menu {
-                    gap: 1rem;
-                }
-            }
-
-            @media (min-width: 1020px) and (max-width: 1076px) {
-                .header > menu {
-                    gap: 2rem;
-                }
-            }
-
-            @media (min-width: 1077px) and (max-width: 1132px) {
-                .header > menu {
-                    gap: 3rem;
-                }
-            }
-
-            @media (min-width: 1133px) and (max-width: 1199px) {
-                .header > menu {
-                    gap: 4rem;
-                }
-            } */
 
             @media (min-width: 1200px) {
                 .header > menu {

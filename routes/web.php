@@ -20,9 +20,8 @@ Route::middleware(['redirect.to.calendar'])->group(function () {
         return view('events');
     });
 
-    Route::get('/calendar', function () {
-        return view('calendar');
-    });
+    Route::get('/calendar', 'Firebase\CalendarController@index');
+    Route::get('/calendar/edit', 'Firebase\CalendarController@edit');
 
     Route::get('/faq', function () {
         return view('faq');
