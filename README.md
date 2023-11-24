@@ -2,7 +2,7 @@
 
 # Laravel Firebase Calendar
 
-**Developed by:** Your Name
+© 2023 Vadym Chervoniak || (č) vadym4che
 
 ## Overview
 
