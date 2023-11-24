@@ -15,22 +15,22 @@
 
 This project includes a universal layout with a color palette and minimal responsiveness for the header and footer. It also features routing that redirects to the calendar page when you first visit the site.
 
-![Impressions](https://github.com/vadym4che/laravel-firebase-calendar/blob/main/docs/screenshots/overview.png)
+![Impressions](https://github.com/vadym4che/laravel-firebase-calendar/blob/main/docs/screenshots/overview.jpg)
 
 ## Key Features
 
 1. **Universal Layout:**
    - Responsive design with a color palette.
    - Header and footer included.
-    ![Universal Layout](https://github.com/vadym4che/laravel-firebase-calendar/blob/main/docs/screenshots/universal-layout.png)
+    ![Universal Layout](https://github.com/vadym4che/laravel-firebase-calendar/blob/main/docs/screenshots/universal-layout.jpg)
 
 2. **Routing:**
    - Automatic redirection to the calendar page on the first visit.
-    ![Routing](https://github.com/vadym4che/laravel-firebase-calendar/blob/main/docs/screenshots/routing.png)
+    ![Routing](https://github.com/vadym4che/laravel-firebase-calendar/blob/main/docs/screenshots/routing.jpg)
 
 3. **Google Cloud Run Deployment:**
    - Deployment to Google Cloud Run with and without containers, directly from the repository.
-   ![Cloud Run Deployment](https://github.com/vadym4che/laravel-firebase-calendar/blob/main/docs/screenshots/cloud-run-deployment.png)
+   ![Cloud Run Deployment](https://github.com/vadym4che/laravel-firebase-calendar/blob/main/docs/screenshots/cloud-run-deployment.jpg)
 
 4. **Firebase Integration:**
    - Explored Firebase, focusing on the database.
