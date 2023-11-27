@@ -20,8 +20,16 @@ Route::middleware(['redirect.to.calendar'])->group(function () {
         return view('events');
     });
 
-    Route::get('/calendar', 'Firebase\CalendarController@index');
-    Route::get('/calendar/edit', 'Firebase\CalendarController@edit');
+    Route::get('/calendar', 'CalendarController@index');
+    Route::get('/calendar/edit', 'CalendarController@edit');
+
+    // Display events for a specific date
+    Route::get('/calendar/{date}', 'CalendarController@showEvents')->name('calendar.show');
+    // Add a new event for a specific date
+    Route::get('/calendar/{date}/add', 'CalendarController@addEvent')->name('calendar.add');
+    // Edit an existing event for a specific date
+    Route::get('/calendar/{date}/{eventName}/edit', 'CalendarController@editEvent')->name('calendar.edit');
+
 
     Route::get('/faq', function () {
         return view('faq');

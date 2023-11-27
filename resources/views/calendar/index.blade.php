@@ -56,62 +56,89 @@
 
         .dates span {
             flex-grow: 1;
-            flex-shrink: 0; /* Add this line to prevent shrinking */
+            flex-shrink: 0;
             width: auto;
             text-align: center;
             font-size: 1rem;
             font-weight: 300;
             line-height: 250%;
             cursor: pointer;
+
+            position: relative;
         }
 
         .other-month {
             color: #888;
+        }
+
+        .dot-container {
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+        }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+
+        .pink-dot {
+            background-color: var(--pink);
+        }
+
+        .green-dot {
+            background-color: var(--green);
+        }
+
+        .gold-dot {
+            background-color: var(--gold);
+        }
+
+        .blue-dot {
+            background-color: var(--blue);
         }
     </style>
 
     <h2 class="title">
         Calendar
     </h2>
-    <a href="/calendar/edit">Edit</a>
+    {{-- <a href="/calendar/edit">Edit</a> --}}
 
     <div class="months-container">
         @php
-            // Get the current month and year
-            $currentMonth = date('n');
-            $currentYear = date('Y');
+            // Get the current date
+            $currentDate = new DateTime();
 
             // Display six months starting from the current month
             for ($i = 0; $i < 6; $i++) {
-                // Calculate the month and year for each iteration
-                $displayMonth = ($currentMonth + $i) % 12;
-                $displayYear = $currentYear + floor(($currentMonth + $i - 1) / 12);
-
-                // Set December to the current year if it's the last iteration
-                if ($i == 5 && $displayMonth == 12) {
-                    $displayYear = $currentYear;
-                }
+                // Copy the current date for iteration
+                $iterationDate = clone $currentDate;
 
                 // Output the month container
                 echo "<div class='month'>";
-                echo "<h3 class='month-title'>" . date('F Y', mktime(0, 0, 0, $displayMonth, 1, $displayYear)) . "</h3>";
+                echo "<h3 class='month-title'>" . $iterationDate->format('F Y') . "</h3>";
 
                 // Output day names
                 echo "<div class='day-names'>";
-                $dayNames = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+                $dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
                 foreach ($dayNames as $dayName) {
                     echo "<span>{$dayName}</span>";
                 }
                 echo "</div>";
 
                 // Calculate the starting and ending days
-                $firstDayOfMonth = new DateTime("{$displayYear}-{$displayMonth}-01");
-                $startDay = $firstDayOfMonth->format('N'); // Numeric representation of the day of the week (1 for Monday through 7 for Sunday)
-                $startDay = $firstDayOfMonth->modify("-{$startDay} days");
+                $iterationDate->modify('first day of this month');
+                $startDay = clone $iterationDate;
+                $startDay->modify('last sunday');
 
-                $lastDayOfMonth = new DateTime("{$displayYear}-{$displayMonth}-" . $firstDayOfMonth->format('t'));
-                $endDay = $lastDayOfMonth->format('N'); // Numeric representation of the day of the week (1 for Monday through 7 for Sunday)
-                $endDay = $lastDayOfMonth->modify("+{$endDay} days");
+                $iterationDate->modify('last day of this month');
+                $endDay = clone $iterationDate;
+                $endDay->modify('next sunday');
 
                 // Output the days in a grid
                 echo "<div class='dates'>";
@@ -120,16 +147,45 @@
 
                 foreach ($period as $day) {
                     // Check if the day is in the current month
-                    $inCurrentMonth = $day->format('n') == $displayMonth;
+                    $inCurrentMonth = $day->format('n') == $iterationDate->format('n');
 
                     // Add a class for styling the days from the previous and next months
                     $dayClass = $inCurrentMonth ? 'date-day' : 'date-day other-month';
 
-                    echo "<span class='{$dayClass}' data-date='{$day->format('Y-m-d')}'>{$day->format('j')}</span>";
+                    // Fetch events for this date
+                    $eventsForDate = $events->where('date', $day->format('Y-m-d'));
+
+                    // Convert events to a JSON string
+                    $eventsJson = json_encode($eventsForDate);
+
+                    // Determine the event types for the dots
+                    $dotClasses = [
+                        'meeting' => 'pink-dot',
+                        'qna' => 'green-dot',
+                        'conf' => 'gold-dot',
+                        'webinar' => 'blue-dot',
+                    ];
+
+                    // Generate dot elements based on event types
+                    $dotsHtml = '';
+                    foreach ($dotClasses as $eventType => $dotClass) {
+                        if ($eventsForDate->where('type', $eventType)->isNotEmpty()) {
+                            $dotsHtml .= "<div class='dot {$dotClass}'></div>";
+                        }
+                    }
+
+                    // Render the date element with dots
+                    echo "<span class='{$dayClass}' data-date='{$day->format('Y-m-d')}' data-events='{$eventsJson}'>";
+                    echo "{$day->format('j')}";
+                    echo "<div class='dot-container'>{$dotsHtml}</div>";
+                    echo "</span>";
                 }
 
                 echo "</div>";
                 echo "</div>";
+
+                // Move to the next month
+                $currentDate->modify('next month');
             }
         @endphp
     </div>
@@ -140,8 +196,14 @@
 
             for (const day of days) {
                 day.addEventListener('click', function (e) {
-                    alert(e.target.getAttribute('data-date'));
-                })
+                    const date = e.target.getAttribute('data-date');
+
+                    // const eventsJson = e.target.getAttribute('data-events');
+                    // // Parse the JSON string to get the events array
+                    // const events = JSON.parse(eventsJson);
+
+                    window.location = `/calendar/${date}`
+                });
             }
         });
     </script>
